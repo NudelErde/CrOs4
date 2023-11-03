@@ -3,7 +3,7 @@ object_dir := $(source_dir)/build
 
 LD := ld
 CXX := clang++
-CXXFLAGS := -std=c++17 -fPIC -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-exceptions -fno-rtti -fno-common -mcmodel=kernel -mno-red-zone -mgeneral-regs-only -ffreestanding -O2 -g -Wall -Wextra -Wno-reserved-identifier -I$(source_dir)/include
+CXXFLAGS := -std=c++17 -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-exceptions -fno-rtti -fno-common -mcmodel=kernel -mno-red-zone -mgeneral-regs-only -ffreestanding -O2 -g -Wall -Wextra -Wno-reserved-identifier -I$(source_dir)/include
 
 source_files := $(shell find $(source_dir) -type f -name "*.cpp")
 object_files := $(patsubst $(source_dir)/%,$(object_dir)/%.o,$(source_files))

@@ -2,11 +2,17 @@
 // Created by nudelerde on 12.08.23.
 //
 
+#include <control/control.h>
+#include <stdint.h>
+
+using namespace CrOs4;
+
 extern "C" [[maybe_unused]] [[noreturn]] void __cxa_pure_virtual() {
     while (true) continue;
 }
 
-extern "C" [[maybe_unused]] [[noreturn]] void __enter_cpp() {
+extern "C" [[maybe_unused]] [[noreturn]] void __enter_cpp(uint64_t multiboot_info) {
+    Control::enterMainCPU(Memory::physical_address_t {multiboot_info});
     while (true) continue;
 }
 
@@ -18,6 +24,7 @@ asm(R"(
 .code64
 .align 16
 __start_64:
+    call __enter_cpp
     hlt
     jmp __start_64
 
@@ -45,11 +52,13 @@ __start:
     mov $__hello_string, %esi
     call __print
     call __check_if_x64
+    pop %ebx
     call __go_to_x64
 
     jmp __32fail
 
 __go_to_x64:
+    push %ebx
     mov $__page_level_4, %eax
     mov %eax, %cr3
 
@@ -65,6 +74,8 @@ __go_to_x64:
     mov %cr0, %eax
     or $(0x1 << 31), %eax
     mov %eax, %cr0
+
+    pop %edi
 
     lgdt __gdt_end
     jmp $0b1000, $__start_64_relay
