@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <stdint.h>
+#include <types/int.h>
 
 namespace CrOs4::IO {
 

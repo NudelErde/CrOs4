@@ -3,12 +3,16 @@
 //
 
 #include <control/control.h>
-#include <stdint.h>
+#include <types/int.h>
 
 using namespace CrOs4;
 
+extern "C" [[maybe_unused]] [[noreturn]] void __stack_chk_fail() {
+    while(true) asm("hlt");
+}
+
 extern "C" [[maybe_unused]] [[noreturn]] void __cxa_pure_virtual() {
-    while (true) continue;
+    while (true) asm("hlt");
 }
 
 extern "C" [[maybe_unused]] [[noreturn]] void __enter_cpp(uint64_t multiboot_info) {

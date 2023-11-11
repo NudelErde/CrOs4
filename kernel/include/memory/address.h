@@ -2,9 +2,11 @@
 // Created by nudelerde on 03.11.23.
 //
 
-#include <stdint.h>
+#include <types/int.h>
 
 #pragma once
+
+#define read_symbol(symbol) [](){uint64_t res; asm volatile("movabsq $" symbol ", %0": "=r"(res)); return res;}()
 
 namespace CrOs4::Memory {
 
